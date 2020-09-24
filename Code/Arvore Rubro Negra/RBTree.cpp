@@ -169,19 +169,28 @@ void RBTree :: RBdelete ( Node *z ) {
  	 else y = minimum (z -> right ); // pega o sucessor de z
  if(y -> left != nil ) x = y -> left ;
  	 else x = y -> right ;
+
+ 	 x->parent = y->parent; // ajusta o pai
+
+ if(y->parent == nil){
+ 		root = x;
+ } else {
+ 		if( y == y->parent->left) y->parent->left = x;
+ 		else y->parent->right = x;
+ }
  
-  if(x != nil ) x -> parent = y -> parent ;
-  if(y -> parent == nil ) {
- 	 root = x;
-} else {
- if(y == y -> parent -> left )
- y -> parent -> left = x;
- else y -> parent -> right = x;
-}
- if(y != z) z -> key = y -> key ;
- if(y -> color == BLACK )
-	RBdelete_fixUp (x); // Conserta possiveis estragos
+
+ if(y!= z){
+ 	z->key = y->key;
+ 	z->value = y->value;
+ } 
+ if(y->color == BLACK) RBdelete_fixUp (x); // Conserta possiveis estragos
 	delete y;
+
+
+
+
+	
 }
   
 void RBTree :: RBdelete_fixUp ( Node *x) {
